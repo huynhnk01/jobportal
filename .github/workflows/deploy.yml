@@ -29,11 +29,11 @@ jobs:
 
       - name: Copy environment file
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ github.base_ref }}" == "refs/heads/main" ]]; then
             cp .env.production .env
-          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+          elif [[ "${{ github.base_ref }}" == "refs/heads/staging" ]]; then
             cp .env.staging .env
-          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          elif [[ "${{ github.base_ref }}" == "refs/heads/develop" ]]; then
             cp .env.develop .env
           fi
 
