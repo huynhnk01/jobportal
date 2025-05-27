@@ -29,12 +29,14 @@ jobs:
 
       - name: Copy environment file
         run: |
-          if [[ "${{ github.base_ref }}" == "main" ]]; then
+          if [ "${{ github.base_ref }}" = "main" ] || [ "${{ github.ref }}" = "refs/heads/main" ]; then
             cp .env.production .env
-          elif [[ "${{ github.base_ref }}" == "staging" ]]; then
+          elif [ "${{ github.base_ref }}" = "staging" ] || [ "${{ github.ref }}" = "refs/heads/staging" ]; then
             cp .env.staging .env
-          elif [[ "${{ github.base_ref }}" == "develop" ]]; then
+          elif [ "${{ github.base_ref }}" = "develop" ] || [ "${{ github.ref }}" = "refs/heads/develop" ]; then
             cp .env.develop .env
+          else
+            echo "⚠️ No matching environment for branch: ${{ github.base_ref || github.ref }}"
           fi
 
       - name: Install dependencies
