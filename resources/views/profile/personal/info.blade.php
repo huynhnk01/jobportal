@@ -8,18 +8,6 @@
                     <h2 class="text-xl font-bold text-gray-900">Thông tin cơ bản</h2>
                     <p class="text-gray-600">Cập nhật thông tin cá nhân của bạn</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button id="cancelBtn"
-                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                        <i class="fas fa-times mr-2"></i>
-                        Hủy
-                    </button>
-                    <button id="saveBtn" form="formPersonalInfo"
-                        class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
-                        <i class="fas fa-save mr-2"></i>
-                        Lưu thay đổi
-                    </button>
-                </div>
             </div>
 
             <form id="formPersonalInfo" class="space-y-6" enctype="multipart/form-data">
@@ -163,6 +151,20 @@
                     </div>
                 </div>
             </form>
+            <div class="flex justify-end mt-6">
+                <div class="flex items-center gap-3">
+                    <button id="cancelBtn"
+                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-times mr-2"></i>
+                        Hủy
+                    </button>
+                    <button id="saveBtn" form="formPersonalInfo"
+                        class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
