@@ -1,14 +1,18 @@
-$(document).ready(function () {
+$(function () {
     $('form').on('submit', function (e) {
         e.preventDefault();
 
-        const email = $('#email-address').val();
+        const email = $.trim($('#email-address').val());
         const password = $('#password').val();
 
-        // Gửi dữ liệu login (giả lập)
-        console.log('Login attempt:', { email, password });
+        if (!email || !password) {
+            alert('Vui lòng nhập đầy đủ email và mật khẩu.');
+            return;
+        }
 
-        alert('Đăng nhập thành công!');
-        window.location.href = 'index.html';
+        // Replace alert and redirect with a more robust solution in production
+        //alert('Đăng nhập thành công!');
+        //window.location.href = 'index.html';
+        this.submit();
     });
 });
