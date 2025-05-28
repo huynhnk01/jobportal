@@ -1,4 +1,4 @@
-<x-layout>
+<x-app-layout>
     @vite(['resources/js/home.js'])
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-16">
@@ -484,4 +484,4 @@
             </div>
         </div>
     </section>
-</x-layout>
+</x-app-layout>
