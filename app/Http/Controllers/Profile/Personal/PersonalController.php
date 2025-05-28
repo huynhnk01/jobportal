@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
-
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Profile\Personal;
 use App\Http\Controllers\Controller;
 
-class RegisteredController extends Controller
+use Illuminate\Http\Request;
+
+class PersonalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('auth.register');
+        // This method can be used to return a view or data related to personal information
+        return view('profile.personal.index', [
+            'user' => $request->user(),
+        ]);
     }
 
     /**

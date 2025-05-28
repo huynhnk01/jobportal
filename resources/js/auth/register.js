@@ -12,8 +12,9 @@ $(function () {
             return;
         }
 
-        console.log('Registration data:', { name, email, password, userType });
-        alert('Đăng ký thành công!');
-        window.location.href = 'login.html';
+        //console.log('Registration data:', { name, email, password, userType });
+        //alert('Đăng ký thành công!');
+        //window.location.href = 'login.html';
+        this.submit();
     });
 });

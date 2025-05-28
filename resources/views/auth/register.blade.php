@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-guest-layout>
     @vite(['resources/js/auth/register.js'])
     <div class="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
@@ -11,25 +11,29 @@
                     </a>
                 </p>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <form class="mt-8 space-y-6" action="{{ route('register') }}" method="POST">
+                @csrf
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="full-name" class="sr-only">Họ và tên</label>
                         <input id="full-name" name="name" type="text" autocomplete="name" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                            placeholder="Họ và tên">
+                            placeholder="Họ và tên" :value="old('name')">
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
                         <label for="email-address" class="sr-only">Email</label>
                         <input id="email-address" name="email" type="email" autocomplete="email" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                            placeholder="Email">
+                            placeholder="Email" :value="old('email')">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div>
                         <label for="password" class="sr-only">Mật khẩu</label>
                         <input id="password" name="password" type="password" autocomplete="new-password" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                             placeholder="Mật khẩu">
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
                     <div>
                         <label for="password-confirm" class="sr-only">Xác nhận mật khẩu</label>
@@ -37,6 +41,7 @@
                             autocomplete="new-password" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                             placeholder="Xác nhận mật khẩu">
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
                 </div>
 
@@ -111,4 +116,4 @@
             </div>
         </div>
     </div>
-</x-auth-layout>
+</x-guest-layout>
