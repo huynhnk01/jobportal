@@ -20,6 +20,8 @@ return new class extends Migration
             $table->enum('role', ['admin', 'employer', 'candidate'])->default('candidate');
             $table->string('avatar')->nullable();
             $table->text('about_me')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
