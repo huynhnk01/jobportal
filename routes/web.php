@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\Personal\PersonalController;
 use App\Http\Controllers\Profile\Personal\PersonalInfoController;
+use App\Http\Controllers\Auth\SocialLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,5 +22,8 @@ Route::middleware('auth')->prefix('profile')->name('profile.')->group(function (
     Route::get('/intro', [ProfileController::class, 'showForm'])->name('intro');
     Route::post('/intro/generate', [ProfileController::class, 'callAIFromGroq'])->name('intro.generate');
 });
+
+Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider']);
+Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
 
 require __DIR__ . '/auth.php';

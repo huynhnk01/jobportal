@@ -3,11 +3,14 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     server: {
-        host: 'jobportal.local',
+        // host: 'jobportal.local',
+        host: '0.0.0.0',
         port: 5173,
         cors: true,
         hmr: {
-            host: 'jobportal.local',
+            // host: 'jobportal.local',
+            host: 'localhost',
+            protocol: 'ws',
         },
         watch: {
             usePolling: true,
