@@ -1,13 +1,13 @@
-$(document).ready(function () {
-    // Xử lý khi click vào các thẻ job card
-    $('.cursor-pointer').on('click', function () {
+$(function () {
+    // Delegate click event for job cards
+    $(document).on('click', '.cursor-pointer', function () {
         console.log('Job card clicked');
-        // Thêm logic chuyển trang tại đây nếu cần
+        // Add navigation logic here if needed
     });
 
-    // Xử lý nút tìm kiếm
-    $('button:contains("Tìm Kiếm")').on('click', function () {
+    // Delegate click event for search button
+    $(document).on('click', 'button:contains("Tìm Kiếm")', function () {
         console.log('Search button clicked');
-        // Thêm logic tìm kiếm tại đây nếu cần
+        // Add search logic here if needed
     });
 });

@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-guest-layout>
     @vite(['resources/js/auth/login.js'])
     <div class="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
@@ -6,41 +6,50 @@
                 <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Đăng nhập vào tài khoản</h2>
                 <p class="mt-2 text-sm text-gray-600">
                     Hoặc
-                    <a href="register.html" class="font-medium text-primary-600 hover:text-primary-500">
+                    <a href={{ route('register') }} class="font-medium text-primary-600 hover:text-primary-500">
                         đăng ký tài khoản mới
                     </a>
                 </p>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4" :status="session('status')" />
+            <form class="mt-8 space-y-6" action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="email-address" class="sr-only">Email</label>
-                        <input id="email-address" name="email" type="email" autocomplete="email" required
+                        <input id="email-address" name="email" type="email" :value="old('email')"
+                            autocomplete="email" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                             placeholder="Email">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div>
                         <label for="password" class="sr-only">Mật khẩu</label>
                         <input id="password" name="password" type="password" autocomplete="current-password" required
                             class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                             placeholder="Mật khẩu">
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox"
+                        <input id="remember-me" name="remember" type="checkbox"
                             class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                         <label for="remember-me" class="ml-2 block text-sm text-gray-900">
                             Ghi nhớ đăng nhập
                         </label>
                     </div>
 
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-primary-600 hover:text-primary-500">
-                            Quên mật khẩu?
-                        </a>
-                    </div>
+                    @if (Route::has('password.request'))
+                        <div class="text-sm">
+                            <a href="{{ route('password.request') }}"
+                                class="font-medium text-primary-600 hover:text-primary-500">
+                                Quên mật khẩu?
+                            </a>
+                        </div>
+                    @endif
                 </div>
 
                 <div>
@@ -74,7 +83,7 @@
                         </a>
                     </div>
                     <div>
-                        <a href="#"
+                        <a href="{{ url('/login/google') }}"
                             class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                             <i class="fab fa-google"></i>
                         </a>
@@ -89,4 +98,4 @@
             </div>
         </div>
     </div>
-</x-auth-layout>
+</x-guest-layout>
