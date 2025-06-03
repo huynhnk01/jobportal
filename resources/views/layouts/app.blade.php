@@ -95,13 +95,13 @@
                                         </a>
                                         <a href="#"
                                             class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-heart text-gray-400"></i>
-                                            <span>Việc làm đã lưu</span>
+                                            <i class="fas fa-paper-plane text-gray-400"></i>
+                                            <span>Việc đã ứng tuyển</span>
                                         </a>
                                         <a href="#"
                                             class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-paper-plane text-gray-400"></i>
-                                            <span>Đơn ứng tuyển</span>
+                                            <i class="fas fa-bookmark text-gray-400"></i>
+                                            <span>Việc đã lưu</span>
                                         </a>
                                         <a href="#"
                                             class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">

@@ -5,7 +5,7 @@
         <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h2 class="text-xl font-bold text-gray-900">Thông tin cơ bản</h2>
+                    <h2 class="text-xl font-bold text-gray-900">Thông tin cá nhân</h2>
                     <p class="text-gray-600">Cập nhật thông tin cá nhân của bạn</p>
                 </div>
             </div>
@@ -153,12 +153,12 @@
             </form>
             <div class="flex justify-end mt-6">
                 <div class="flex items-center gap-3">
-                    <button id="cancelBtn"
+                    <a href="{{ route('profile.personal') }}"
                         class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
                         <i class="fas fa-times mr-2"></i>
                         Hủy
-                    </button>
-                    <button id="saveBtn" form="formPersonalInfo"
+                    </a>
+                    <button form="formPersonalInfo"
                         class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
                         <i class="fas fa-save mr-2"></i>
                         Lưu thay đổi
@@ -167,21 +167,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Other sections will be loaded here via AJAX -->
-    <div id="professional-section" class="content-section hidden">
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-6">Thông tin nghề nghiệp</h2>
-            <p class="text-gray-600">Nội dung sẽ được tải qua AJAX...</p>
-        </div>
-    </div>
-
-    <div id="skills-section" class="content-section hidden">
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-6">Kỹ năng</h2>
-            <p class="text-gray-600">Nội dung sẽ được tải qua AJAX...</p>
-        </div>
-    </div>
-
-    <!-- Add more sections as needed -->
 </div>

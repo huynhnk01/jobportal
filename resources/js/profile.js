@@ -1,27 +1,12 @@
 $(function () {
     // Bắt sự kiện click vào các nút "Chỉnh sửa"
-    $('body').on('click', 'button:has(i.fa-edit)', function () {
-        const section = $(this).closest('.bg-white');
-        const sectionTitle = section.find('h2').text().trim();
-
-        let url = '';
-
-        if (sectionTitle.includes('Thông Tin Cá Nhân')) {
-            url = '/profile/personal-info';
-        } else if (sectionTitle.includes('Thông Tin Nghề Nghiệp')) {
-            url = '/profile/professional-info';
-        } else if (sectionTitle.includes('Hồ sơ CV')) {
-            url = '/profile/cv';
-        }
-
-        if (url) {
-            $('#profileContent').html('<p class="text-gray-500">Đang tải...</p>');
-            $.get(url, function (data) {
-                $('#profileContent').html(data);
-            }).fail(function () {
-                $('#profileContent').html('<p class="text-red-500">Lỗi khi tải nội dung.</p>');
-            });
-        }
+    $('body').on('click', '#editPersonalBasicInfo', function () {
+        $('#profileContent').html('<p class="text-gray-500">Đang tải...</p>');
+        $.get('/profile/personal/basic-info', function (data) {
+            $('#profileContent').html(data);
+        }).fail(function () {
+            $('#profileContent').html('<p class="text-red-500">Lỗi khi tải nội dung.</p>');
+        });
     });
 
     $('body').on('submit', '#formPersonalInfo', function (e) {
@@ -33,7 +18,7 @@ $(function () {
         console.log('Submitting form with data:', Object.fromEntries(formData.entries()));
 
         $.ajax({
-            url: '/profile/personal-info/update',
+            url: '/profile/personal/basic-info/update',
             type: 'POST',
             data: formData,
             processData: false, // Không xử lý dữ liệu
@@ -63,15 +48,5 @@ $(function () {
             };
             reader.readAsDataURL(file);
         }
-    });
-
-    $('body').on('click', '#cancelBtn', function () {
-        // Quay lại phần thông tin cá nhân
-        $('#profileContent').html('<p class="text-gray-500">Đang tải...</p>');
-        $.get('/profile/personal', function (data) {
-            $('#profileContent').html(data);
-        }).fail(function () {
-            $('#profileContent').html('<p class="text-red-500">Lỗi khi tải nội dung.</p>');
-        });
     });
 });

@@ -16,8 +16,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::get('/personal', [PersonalController::class, 'index'])->name('personal');
-    Route::get('/personal-info', [PersonalInfoController::class, 'index'])->name('personal-info');
-    Route::patch('/personal-info/update', [PersonalInfoController::class, 'update'])->name('personal-info.update');
+    Route::get('/personal/basic-info', [PersonalController::class, 'editBasicInfo'])->name('personal.basic-info');
+    Route::patch('/personal/basic-info/update', [PersonalController::class, 'updateBasicInfo'])->name('personal.basic-info.update');
 
     Route::get('/intro', [ProfileController::class, 'showForm'])->name('intro');
     Route::post('/intro/generate', [ProfileController::class, 'callAIFromGroq'])->name('intro.generate');
