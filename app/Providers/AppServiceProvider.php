@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 
@@ -20,9 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->environment('local')) {
-            URL::forceRootUrl(config('app.url'));
-            URL::forceScheme('https');
+        $host = Request::getHost();
+
+        if (!str_ends_with($host, '.local')) {
+            URL::forceScheme('https'); // dùng khi cần force schema https để có thể redirect đúng url
+            // URL::forceRootUrl(config('app.url')); // dùng khi cần force action trong form đúng với APP_URL
         }
     }
 }

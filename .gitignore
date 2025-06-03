@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+jobportal.local-key.pem
+jobportal.local.pem
