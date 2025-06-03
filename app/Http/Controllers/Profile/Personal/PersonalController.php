@@ -1,68 +1,69 @@
 <?php
 
 namespace App\Http\Controllers\Profile\Personal;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PersonalController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the user's personal profile page.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        // This method can be used to return a view or data related to personal information
         return view('profile.personal.index', [
             'user' => $request->user(),
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for editing the user's basic information.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\View
      */
-    public function create()
+    public function editBasicInfo(Request $request): View
     {
-        //
+        return view('profile.personal.basic-info', [
+            'user' => $request->user(),
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the user's basic information.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function updateBasicInfo(Request $request): JsonResponse
     {
-        //
-    }
+        $validated = $request->validate([
+            'name'   => 'required|string|max:255',
+            'email'  => 'required|email',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $user = $request->user();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $avatarPath;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            // Delete old avatar if exists
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $user->update($validated);
+
+        return response()->json(['message' => 'Cập nhật thành công']);
     }
 }

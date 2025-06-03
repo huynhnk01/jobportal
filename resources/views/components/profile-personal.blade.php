@@ -2,7 +2,7 @@
 <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-semibold text-gray-900">Thông Tin Cá Nhân</h2>
-        <button
+        <button id="editPersonalBasicInfo"
             class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
             <i class="fas fa-edit mr-2"></i> Chỉnh sửa
         </button>
