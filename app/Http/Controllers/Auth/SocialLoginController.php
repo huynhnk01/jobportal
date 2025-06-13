@@ -1,22 +1,38 @@
 <?php
 
-// app/Http/Controllers/Auth/SocialLoginController.php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
+
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
+
+/**
+ * Controller to handle social login functionality.
+ */
 class SocialLoginController extends Controller
 {
-    public function redirectToProvider($provider)
+    /**
+     * Redirect the user to the social provider's authentication page.
+     *
+     * @param string $provider
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function redirectToProvider($provider): RedirectResponse
     {
         return Socialite::driver($provider)->redirect();
     }
 
-    public function handleProviderCallback($provider)
+    /**
+     * Obtain the user information from the social provider and log them in.
+     *
+     * @param string $provider
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function handleProviderCallback($provider): RedirectResponse
     {
         /** @var \Laravel\Socialite\Two\AbstractProvider $providerDriver */
         $providerDriver = Socialite::driver($provider);
@@ -35,6 +51,6 @@ class SocialLoginController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home'); // điều hướng sau khi đăng nhập
+        return redirect()->intended(route('home', absolute: false));
     }
 }

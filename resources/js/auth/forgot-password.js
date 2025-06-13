@@ -1,21 +1,21 @@
 $(function () {
+    const $form = $('#forgotPasswordForm');
     const $step1 = $('#step1');
     const $step2 = $('#step2');
-    const $form = $('#forgotPasswordForm');
     const $emailInput = $('#email');
     const $emailError = $('#emailError');
     const $submitBtn = $form.find('button[type="submit"]');
     const $submitText = $submitBtn.find('.submit-text');
-    const $loadingIcon = $submitBtn.find('.loading-icon');
+    const $loadingIcon = $('#loading-icon');
     const $sentEmail = $('#sentEmail');
     const $resendBtn = $('#resendBtn');
-    const $countdown = $('#countdown');
     const $resendTimer = $('#resendTimer');
+    const $countdown = $('#countdown');
 
     let countdownInterval;
 
     function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return re.test(email);
     }
 
@@ -93,17 +93,28 @@ $(function () {
         setLoading(true);
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            const random = Math.random();
-            if (random < 0.1) throw new Error('EMAIL_NOT_FOUND');
-            else if (random < 0.15) throw new Error('SERVER_ERROR');
+            const response = await $.ajax({
+                url: '/forgot-password',
+                method: 'POST',
+                data: { email },
+                dataType: 'json'
+            });
 
-            showStep2(email);
-
+            if (response.success) {
+                showStep2(email);
+            } else {
+                showError(response.message || 'Có lỗi xảy ra. Vui lòng thử lại');
+            }
         } catch (error) {
-            if (error.message === 'EMAIL_NOT_FOUND') showError('Email này chưa được đăng ký trong hệ thống');
-            else if (error.message === 'SERVER_ERROR') showError('Có lỗi xảy ra. Vui lòng thử lại sau');
-            else showError('Có lỗi xảy ra. Vui lòng thử lại');
+            const response = error.responseJSON;
+
+            if (response?.error === 'EMAIL_NOT_FOUND') {
+                showError('Email này chưa được đăng ký trong hệ thống');
+            } else if (response?.errors?.email) {
+                showError(response.errors.email[0]);
+            } else {
+                showError('Có lỗi xảy ra. Vui lòng thử lại sau');
+            }
         } finally {
             setLoading(false);
         }
