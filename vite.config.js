@@ -32,7 +32,7 @@ export default defineConfig({
         cors: true,
         hmr: {
             // host: 'jobportal.local',
-            host: '192.168.1.3', // IP có thể thay đổi
+            host: '192.168.1.5', // IP có thể thay đổi
             // protocol: 'ws',
             protocol: 'wss',
         },

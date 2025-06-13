@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot:title>Quên mật khẩu</x-slot:title>
     @vite(['resources/js/auth/forgot-password.js'])
     <!-- Main Content -->
     <main class="flex-1 flex items-center justify-center px-4 py-12">
@@ -16,10 +17,8 @@
                     </p>
                 </div>
 
-                 <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
                 <!-- Form -->
-                <form id="_forgotPasswordForm" class="space-y-6" action="{{ route('password.email') }}" method="POST">
+                <form id="forgotPasswordForm" class="space-y-6">
                     @csrf
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
@@ -51,7 +50,7 @@
                         class="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <span class="submit-text">Gửi link đặt lại mật khẩu</span>
-                        <i class="fas fa-spinner fa-spin ml-2 hidden loading-icon"></i>
+                        <i id="loading-icon" class="fas fa-spinner fa-spin ml-2 hidden"></i>
                     </button>
                 </form>
 
