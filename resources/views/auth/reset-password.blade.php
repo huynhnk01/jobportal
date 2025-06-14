@@ -9,7 +9,7 @@
                 <!-- Header -->
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-key text-2xl text-blue-600"></i>
+                        <i class="fas fa-sync-alt text-2xl text-blue-600"></i>
                     </div>
                     <h1 class="text-2xl font-bold text-gray-900 mb-2">Đặt lại mật khẩu</h1>
                     <p class="text-gray-600">
