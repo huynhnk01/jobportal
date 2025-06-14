@@ -77,7 +77,7 @@
 
                 <!-- Additional Info -->
                 <div class="mt-8 text-center">
-                    <a href="forgot-password.html" class="text-sm text-primary-600 hover:text-primary-500 transition-colors">
+                    <a href="{{ route('password.request') }}" class="text-sm text-primary-600 hover:text-primary-500 transition-colors">
                         <i class="fas fa-question-circle mr-1"></i>
                         Quên mật khẩu?
                     </a>
