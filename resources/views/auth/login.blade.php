@@ -5,6 +5,9 @@
     <main class="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div class="bg-white rounded-lg shadow-md p-8">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-sign-in-alt text-2xl text-blue-600"></i>
+                </div>
                 <div class="text-center">
                     <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Đăng nhập vào tài khoản</h2>
                     <p class="mt-2 text-sm text-gray-600">
@@ -86,7 +89,7 @@
 
                     <div class="mt-6 grid grid-cols-3 gap-3">
                         <div>
-                            <a href="#"
+                            <a href="{{ url('/login/facebook') }}"
                                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
@@ -98,7 +101,7 @@
                             </a>
                         </div>
                         <div>
-                            <a href="#"
+                            <a href="{{ url('/login/linkedin') }}"
                                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
