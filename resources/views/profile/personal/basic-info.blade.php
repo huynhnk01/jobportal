@@ -16,13 +16,8 @@
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Ảnh đại diện</h3>
                     <div class="flex items-center gap-6">
                         <div class="relative">
-                            @if (auth()->user()->avatar)
-                                <img id="avatarPreview" src="{{ asset('storage/' . auth()->user()->avatar) }}"
-                                    alt="Avatar" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
-                            @else
-                                <img id="avatarPreview" src="https://randomuser.me/api/portraits/men/32.jpg"
-                                    alt="Avatar" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
-                            @endif
+                            <img id="avatarPreview" src="{{ auth()->user()->avatar_url }}" alt="Avatar"
+                                class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
                             <button type="button" id="removeAvatarBtn"
                                 class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors hidden">
                                 <i class="fas fa-times text-sm"></i>

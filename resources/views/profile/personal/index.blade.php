@@ -13,7 +13,7 @@
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div class="p-6 text-center border-b border-gray-200">
                             <div class="relative mx-auto w-24 h-24 mb-4">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-full h-full rounded-full object-cover">
                                 <button class="absolute bottom-0 right-0 bg-primary-600 text-white rounded-full p-1 w-8 h-8 flex items-center justify-center">
                                     <i class="fas fa-camera"></i>
                                 </button>

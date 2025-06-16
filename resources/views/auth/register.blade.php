@@ -135,32 +135,6 @@
                         </div>
                     </div>
 
-                    <!-- User Type Selection -->
-                    <div class="space-y-3">
-                        <label class="block text-sm font-medium text-gray-700">
-                            Loại tài khoản <span class="text-red-500">*</span>
-                        </label>
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input id="user-type-candidate" name="user_type" type="radio" value="candidate"
-                                    checked class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
-                                <label for="user-type-candidate" class="ml-3 block text-sm text-gray-700">
-                                    Tôi là ứng viên tìm việc
-                                </label>
-                            </div>
-                            <div class="flex items-center">
-                                <input id="user-type-employer" name="user_type" type="radio" value="employer"
-                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
-                                <label for="user-type-employer" class="ml-3 block text-sm text-gray-700">
-                                    Tôi là nhà tuyển dụng
-                                </label>
-                            </div>
-                        </div>
-                        <div id="user-type-error" class="hidden mt-1 text-sm text-red-600">
-                            <!-- Backend error for user type will be displayed here -->
-                        </div>
-                    </div>
-
                     <!-- Terms and Conditions -->
                     <div class="space-y-2">
                         <div class="flex items-start">

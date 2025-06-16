@@ -23,14 +23,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Có thể redirect theo vai trò người dùng
-                $role = Auth::user()->role;
+                $user = Auth::guard($guard)->user();
+                $role = $user?->role;
 
                 return redirect(match ($role) {
-                    'admin' => '/admin/dashboard',
-                    // 'employer' => '/employer/dashboard',
-                    // 'candidate' => '/candidate/dashboard',
-                    default => '/',
+                    'admin' => route('admin.dashboard', absolute: false),
+                    default => route('home', absolute: false),
                 });
             }
         }

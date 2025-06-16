@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'employer', 'candidate'])->default('candidate');
             $table->string('avatar')->nullable();
-            $table->text('about_me')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
+            $table->boolean('profile_completed')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

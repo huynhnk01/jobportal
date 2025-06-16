@@ -57,10 +57,9 @@
                         <div class="auth-profile relative group">
                             <button
                                 class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition-colors">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar"
-                                    class="w-8 h-8 rounded-full">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-8 h-8 rounded-full">
                                 <div class="text-left">
-                                    <p class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
                                 </div>
                                 <i class="fas fa-chevron-down text-xs text-gray-400"></i>
                             </button>
@@ -72,11 +71,11 @@
                                     <!-- User Info -->
                                     <div class="px-4 py-3 border-b border-gray-100">
                                         <div class="flex items-center gap-3">
-                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar"
+                                            <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
                                                 class="w-10 h-10 rounded-full">
                                             <div>
-                                                <p class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</p>
-                                                <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
+                                                <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
+                                                <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
                                                 <p class="text-xs text-primary-600">Ứng viên</p>
                                             </div>
                                         </div>
@@ -84,26 +83,28 @@
 
                                     <!-- Menu Items -->
                                     <div class="py-1">
-                                        <a href={{ route('profile.index') }}
-                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-user text-gray-400"></i>
-                                            <span>Hồ sơ cá nhân</span>
-                                        </a>
-                                        <a href="#"
-                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-file-alt text-gray-400"></i>
-                                            <span>CV của tôi</span>
-                                        </a>
-                                        <a href="#"
-                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-paper-plane text-gray-400"></i>
-                                            <span>Việc đã ứng tuyển</span>
-                                        </a>
-                                        <a href="#"
-                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-bookmark text-gray-400"></i>
-                                            <span>Việc đã lưu</span>
-                                        </a>
+                                        @if (auth()->user()->profile_completed)
+                                            <a href={{ route('profile.index') }}
+                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-user text-gray-400"></i>
+                                                <span>Hồ sơ cá nhân</span>
+                                            </a>
+                                            <a href="#"
+                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-file-alt text-gray-400"></i>
+                                                <span>CV của tôi</span>
+                                            </a>
+                                            <a href="#"
+                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-paper-plane text-gray-400"></i>
+                                                <span>Việc đã ứng tuyển</span>
+                                            </a>
+                                            <a href="#"
+                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-bookmark text-gray-400"></i>
+                                                <span>Việc đã lưu</span>
+                                            </a>
+                                        @endif
                                         <a href="#"
                                             class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
                                             <i class="fas fa-bell text-gray-400"></i>
@@ -149,13 +150,14 @@
                         </button>
                     </div>
 
-                    <!-- Mobile Profile (when logged in) -->
-                    <div class="auth-mobile-profile hidden">
-                        <button class="mobile-profile-btn p-1">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar"
-                                class="w-8 h-8 rounded-full">
-                        </button>
-                    </div>
+                    @auth
+                        <!-- Mobile Profile (when logged in) -->
+                        <div class="auth-mobile-profile hidden">
+                            <button class="mobile-profile-btn p-1">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-8 h-8 rounded-full">
+                            </button>
+                        </div>
+                    @endauth
 
                     <!-- Mobile Menu Button -->
                     <button class="mobile-menu-btn p-2 text-gray-600 hover:text-gray-900 transition-colors">
@@ -182,32 +184,34 @@
 
                 <!-- Mobile Menu Content -->
                 <div class="p-4">
-                    <!-- User Profile Section (when logged in) -->
-                    <div class="auth-mobile-profile-section hidden mb-6 p-4 bg-gray-50 rounded-lg">
-                        <div class="flex items-center gap-3 mb-4">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar"
-                                class="w-12 h-12 rounded-full">
-                            <div>
-                                <p class="font-medium text-gray-900">Nguyễn Văn A</p>
-                                <p class="text-sm text-gray-500">nguyenvana@example.com</p>
-                                <p class="text-sm text-primary-600">Ứng viên</p>
+                    @auth
+                        <!-- User Profile Section (when logged in) -->
+                        <div class="auth-mobile-profile-section hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3 mb-4">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
+                                    class="w-12 h-12 rounded-full">
+                                <div>
+                                    <p class="font-medium text-gray-900">Nguyễn Văn A</p>
+                                    <p class="text-sm text-gray-500">nguyenvana@example.com</p>
+                                    <p class="text-sm text-primary-600">Ứng viên</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-center">
+                                <div>
+                                    <p class="text-lg font-bold text-gray-900">12</p>
+                                    <p class="text-xs text-gray-500">Đơn ứng tuyển</p>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-bold text-gray-900">8</p>
+                                    <p class="text-xs text-gray-500">Việc đã lưu</p>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-bold text-gray-900">156</p>
+                                    <p class="text-xs text-gray-500">Lượt xem</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 text-center">
-                            <div>
-                                <p class="text-lg font-bold text-gray-900">12</p>
-                                <p class="text-xs text-gray-500">Đơn ứng tuyển</p>
-                            </div>
-                            <div>
-                                <p class="text-lg font-bold text-gray-900">8</p>
-                                <p class="text-xs text-gray-500">Việc đã lưu</p>
-                            </div>
-                            <div>
-                                <p class="text-lg font-bold text-gray-900">156</p>
-                                <p class="text-xs text-gray-500">Lượt xem</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endauth
 
                     <!-- Navigation Links -->
                     <nav class="space-y-1 mb-6">
@@ -235,26 +239,28 @@
 
                     <!-- Auth Menu Items (when logged in) -->
                     <div class="auth-mobile-menu hidden space-y-1 mb-6 border-t pt-4">
-                        <a href="my-account.html"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-user text-gray-400 w-5"></i>
-                            <span>Hồ sơ cá nhân</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-file-alt text-gray-400 w-5"></i>
-                            <span>CV của tôi</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-heart text-gray-400 w-5"></i>
-                            <span>Việc làm đã lưu</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-paper-plane text-gray-400 w-5"></i>
-                            <span>Đơn ứng tuyển</span>
-                        </a>
+                        @if (auth()->user()->profile_completed)
+                            <a href="my-account.html"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-user text-gray-400 w-5"></i>
+                                <span>Hồ sơ cá nhân</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-file-alt text-gray-400 w-5"></i>
+                                <span>CV của tôi</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-heart text-gray-400 w-5"></i>
+                                <span>Việc làm đã lưu</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-paper-plane text-gray-400 w-5"></i>
+                                <span>Đơn ứng tuyển</span>
+                            </a>
+                        @endif
                         <a href="#"
                             class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
                             <i class="fas fa-bell text-gray-400 w-5"></i>

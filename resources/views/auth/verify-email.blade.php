@@ -1,5 +1,6 @@
 <x-guest-layout>
     <x-slot:title>Xác nhận mail</x-slot:title>
+    @vite(['resources/js/auth/verify-email.js'])
     <!-- Main Content -->
     <main class="flex-1 flex items-center justify-center px-4 py-12">
         <div class="max-w-md w-full">
@@ -25,7 +26,7 @@
                         </div>
                         <div class="ml-3 flex-1">
                             <p class="text-sm font-medium text-blue-900">Email đã đăng ký:</p>
-                            <p class="text-sm text-blue-700" id="userEmail">nguyenvana@example.com</p>
+                            <p class="text-sm text-blue-700" id="userEmail">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <span
@@ -119,7 +120,7 @@
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-500 mr-2 mt-0.5 text-xs"></i>
-                            <span>Tìm email từ <strong>noreply@jobportal.com</strong></span>
+                            <span>Tìm email từ <strong>{{ config('mail.from.address') }}</strong></span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-500 mr-2 mt-0.5 text-xs"></i>
