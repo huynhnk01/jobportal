@@ -48,10 +48,16 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        //event(new Registered($user));
+        $user->sendEmailVerificationNotification();
 
         Auth::login($user);
 
         return redirect()->route('verification.notice');
+    }
+
+    public function complete(): View
+    {
+        return view('auth.register-complete');
     }
 }

@@ -194,18 +194,6 @@ $(function () {
         }
     }
 
-    function validateUserType() {
-        const userType = $('input[name="user_type"]:checked').val();
-        const $userTypeError = $('#user-type-error');
-        if (!userType) {
-            showError($userTypeError, 'Bạn phải chọn loại tài khoản');
-            return false;
-        } else {
-            hideError($userTypeError);
-            return true;
-        }
-    }
-
     function validateTerms() {
         const termsChecked = $('#terms').prop('checked');
         const $termsError = $('#terms-error');
@@ -246,10 +234,9 @@ $(function () {
         const isPasswordValid = validatePassword();
         const isPasswordConfirmValid = validatePasswordConfirmation();
         const isPasswordMatch = checkPasswordMatch();
-        const isUserTypeValid = validateUserType();
         const isTermsChecked = validateTerms();
 
-        const isValid = isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid && isPasswordMatch && isUserTypeValid && isTermsChecked;
+        const isValid = isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid && isPasswordMatch && isTermsChecked;
         $submitBtn.prop('disabled', !isValid);
 
         return isValid;
