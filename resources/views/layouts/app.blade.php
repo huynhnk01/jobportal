@@ -31,12 +31,10 @@
 
                 <!-- Desktop Actions -->
                 <div class="hidden lg:flex items-center gap-3">
-                    @if (auth()->guest() || auth()->user()->role === 'employer')
-                        <a href="#"
-                            class="px-4 py-2 border border-orange-500 text-orange-600 hover:bg-orange-50 rounded-md transition-colors">
-                            Đăng Tin Tuyển Dụng
-                        </a>
-                    @endif
+                    <a href="#"
+                        class="px-4 py-2 border border-orange-500 text-orange-600 hover:bg-orange-50 rounded-md transition-colors">
+                        Đăng Tin Tuyển Dụng
+                    </a>
 
                     <!-- Guest Actions -->
                     @guest
@@ -83,28 +81,26 @@
 
                                     <!-- Menu Items -->
                                     <div class="py-1">
-                                        @if (auth()->user()->profile_completed)
-                                            <a href={{ route('profile.index') }}
-                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-user text-gray-400"></i>
-                                                <span>Hồ sơ cá nhân</span>
-                                            </a>
-                                            <a href="#"
-                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-file-alt text-gray-400"></i>
-                                                <span>CV của tôi</span>
-                                            </a>
-                                            <a href="#"
-                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-paper-plane text-gray-400"></i>
-                                                <span>Việc đã ứng tuyển</span>
-                                            </a>
-                                            <a href="#"
-                                                class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-bookmark text-gray-400"></i>
-                                                <span>Việc đã lưu</span>
-                                            </a>
-                                        @endif
+                                        <a href={{ route('profile.candidate.info') }}
+                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-user text-gray-400"></i>
+                                            <span>Hồ sơ cá nhân</span>
+                                        </a>
+                                        <a href="#"
+                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-file-alt text-gray-400"></i>
+                                            <span>CV của tôi</span>
+                                        </a>
+                                        <a href="#"
+                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-paper-plane text-gray-400"></i>
+                                            <span>Việc đã ứng tuyển</span>
+                                        </a>
+                                        <a href="#"
+                                            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-bookmark text-gray-400"></i>
+                                            <span>Việc đã lưu</span>
+                                        </a>
                                         <a href="#"
                                             class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
                                             <i class="fas fa-bell text-gray-400"></i>
@@ -150,8 +146,8 @@
                         </button>
                     </div>
 
+                    <!-- Mobile Profile (when logged in) -->
                     @auth
-                        <!-- Mobile Profile (when logged in) -->
                         <div class="auth-mobile-profile hidden">
                             <button class="mobile-profile-btn p-1">
                                 <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-8 h-8 rounded-full">
@@ -184,8 +180,8 @@
 
                 <!-- Mobile Menu Content -->
                 <div class="p-4">
+                    <!-- User Profile Section (when logged in) -->
                     @auth
-                        <!-- User Profile Section (when logged in) -->
                         <div class="auth-mobile-profile-section hidden mb-6 p-4 bg-gray-50 rounded-lg">
                             <div class="flex items-center gap-3 mb-4">
                                 <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
@@ -238,8 +234,8 @@
                     </nav>
 
                     <!-- Auth Menu Items (when logged in) -->
-                    <div class="auth-mobile-menu hidden space-y-1 mb-6 border-t pt-4">
-                        @if (auth()->user()->profile_completed)
+                    @auth
+                        <div class="auth-mobile-menu hidden space-y-1 mb-6 border-t pt-4">
                             <a href="my-account.html"
                                 class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
                                 <i class="fas fa-user text-gray-400 w-5"></i>
@@ -260,20 +256,20 @@
                                 <i class="fas fa-paper-plane text-gray-400 w-5"></i>
                                 <span>Đơn ứng tuyển</span>
                             </a>
-                        @endif
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-bell text-gray-400 w-5"></i>
-                            <span>Thông báo</span>
-                            <span
-                                class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                        </a>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                            <i class="fas fa-cog text-gray-400 w-5"></i>
-                            <span>Cài đặt</span>
-                        </a>
-                    </div>
+                            <a href="#"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-bell text-gray-400 w-5"></i>
+                                <span>Thông báo</span>
+                                <span
+                                    class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fas fa-cog text-gray-400 w-5"></i>
+                                <span>Cài đặt</span>
+                            </a>
+                        </div>
+                    @endauth
 
                     <!-- Action Buttons -->
                     <div class="space-y-3">
@@ -284,30 +280,34 @@
                         </a>
 
                         <!-- Guest Actions (when not logged in) -->
-                        <div class="guest-mobile-actions space-y-2">
-                            <a href="/login"
-                                class="block w-full px-4 py-3 border border-gray-300 text-gray-700 text-center rounded-md hover:bg-gray-50 transition-colors">
-                                Đăng Nhập
-                            </a>
-                            <a href="/register"
-                                class="block w-full px-4 py-3 bg-primary-600 text-white text-center rounded-md hover:bg-primary-700 transition-colors">
-                                Đăng Ký
-                            </a>
-                        </div>
+                        @guest
+                            <div class="guest-mobile-actions space-y-2">
+                                <a href="/login"
+                                    class="block w-full px-4 py-3 border border-gray-300 text-gray-700 text-center rounded-md hover:bg-gray-50 transition-colors">
+                                    Đăng Nhập
+                                </a>
+                                <a href="/register"
+                                    class="block w-full px-4 py-3 bg-primary-600 text-white text-center rounded-md hover:bg-primary-700 transition-colors">
+                                    Đăng Ký
+                                </a>
+                            </div>
+                        @endguest
 
                         <!-- Auth Actions (when logged in) -->
-                        <div class="auth-mobile-actions hidden space-y-2 border-t pt-4">
-                            <a href="#"
-                                class="flex items-center justify-center gap-2 w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                                <i class="fas fa-question-circle"></i>
-                                Trợ giúp
-                            </a>
-                            <a href="login.html"
-                                class="flex items-center justify-center gap-2 w-full px-4 py-3 text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
-                                <i class="fas fa-sign-out-alt"></i>
-                                Đăng xuất
-                            </a>
-                        </div>
+                        @auth
+                            <div class="auth-mobile-actions hidden space-y-2 border-t pt-4">
+                                <a href="#"
+                                    class="flex items-center justify-center gap-2 w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-question-circle"></i>
+                                    Trợ giúp
+                                </a>
+                                <a href="login.html"
+                                    class="flex items-center justify-center gap-2 w-full px-4 py-3 text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        @endauth
                     </div>
                 </div>
             </div>

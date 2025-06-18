@@ -1,6 +1,7 @@
 $(function () {
     const $resendBtn = $('#resendBtn');
     const $statusTag = $('.inline-flex.bg-yellow-100');
+    let intervalId = null;
 
     function checkEmailVerification() {
         $.ajax({
@@ -19,11 +20,17 @@ $(function () {
 
                     $resendBtn.prop('disabled', true);
                     $resendBtn.find('.loading-icon').addClass('hidden');
+
+                    // Dừng kiểm tra định kỳ
+                    if (intervalId) {
+                        clearInterval(intervalId);
+                        intervalId = null;
+                    }
                 }
             }
         });
     }
 
     // Kiểm tra mỗi 5 giây
-    setInterval(checkEmailVerification, 5000);
+    intervalId = setInterval(checkEmailVerification, 5000);
 });

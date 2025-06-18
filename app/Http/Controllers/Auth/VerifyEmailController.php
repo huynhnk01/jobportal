@@ -34,10 +34,16 @@ class VerifyEmailController extends Controller
         return $this->redirectAfterVerification($user);
     }
 
+    /**
+     * Redirect the user after email verification.
+     *
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function redirectAfterVerification($user): RedirectResponse
     {
-        if (!$user->profile_completed) {
-            return redirect()->route('register.complete');
+        if (!$user->init_profile) {
+            return redirect()->route('profile.init.index');
         }
 
         return redirect()->intended(route('home', absolute: false) . '?verified=1');

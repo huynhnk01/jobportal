@@ -1,11 +1,10 @@
-<!-- Content will be loaded here via AJAX -->
-<div id="content-area">
-    <!-- Basic Info Section (Default) -->
-    <div id="basic-info-section" class="content-section">
+<x-app-layout>
+    <x-profile-candidate-layout>
+        <!-- Basic Info Section (Default) -->
         <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h2 class="text-xl font-bold text-gray-900">Thông tin cá nhân</h2>
+                    <h2 class="text-xl font-bold text-gray-900">Thông Tin Cá Nhân</h2>
                     <p class="text-gray-600">Cập nhật thông tin cá nhân của bạn</p>
                 </div>
             </div>
@@ -45,7 +44,7 @@
 
                 <!-- Personal Information -->
                 <div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Thông tin cá nhân</h3>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Thông tin cơ bản</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
@@ -64,21 +63,21 @@
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
-                                Số điện thoại
+                                Số điện thoại <span class="text-red-500">*</span>
                             </label>
                             <input type="tel" id="phone" name="phone" value="0123456789"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         </div>
                         <div>
                             <label for="birthDate" class="block text-sm font-medium text-gray-700 mb-2">
-                                Ngày sinh
+                                Ngày sinh <span class="text-red-500">*</span>
                             </label>
                             <input type="date" id="birthDate" name="birthDate" value="1990-01-15"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         </div>
                         <div>
                             <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">
-                                Giới tính
+                                Giới tính <span class="text-red-500">*</span>
                             </label>
                             <select id="gender" name="gender"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
@@ -97,15 +96,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
                             <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
-                                Địa chỉ chi tiết
+                                Địa chỉ chi tiết <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="address" name="address" value="123 Đường ABC, Phường XYZ"
                                 placeholder="Số nhà, tên đường, phường/xã"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                         </div>
-                        <div>
+                        {{-- <div>
                             <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
-                                Tỉnh/Thành phố
+                                Tỉnh/Thành phố <span class="text-red-500">*</span>
                             </label>
                             <select id="city" name="city"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
@@ -119,7 +118,7 @@
                         </div>
                         <div>
                             <label for="district" class="block text-sm font-medium text-gray-700 mb-2">
-                                Quận/Huyện
+                                Quận/Huyện <span class="text-red-500">*</span>
                             </label>
                             <select id="district" name="district"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
@@ -129,7 +128,7 @@
                                 <option value="hai-ba-trung">Hai Bà Trưng</option>
                                 <option value="hoan-kiem">Hoàn Kiếm</option>
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -148,7 +147,7 @@
             </form>
             <div class="flex justify-end mt-6">
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('profile.personal') }}"
+                    <a href="{{ route('profile.candidate.info') }}"
                         class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
                         <i class="fas fa-times mr-2"></i>
                         Hủy
@@ -161,5 +160,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </x-profile-candidate-layout>
+</x-app-layout>

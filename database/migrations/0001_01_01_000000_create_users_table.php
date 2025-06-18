@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
-            $table->boolean('profile_completed')->default(false);
+            $table->boolean('init_profile')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

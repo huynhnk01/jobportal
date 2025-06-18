@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ProfilePersonal extends Component
+class ProfileCandidateLayout extends Component
 {
     public $user;
 
@@ -23,6 +23,6 @@ class ProfilePersonal extends Component
      */
     public function render(): View
     {
-        return view('components.profile-personal');
+        return view('components.profile-candidate');
     }
 }

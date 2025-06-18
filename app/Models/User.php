@@ -64,14 +64,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return "https://api.dicebear.com/8.x/shapes/svg?seed={$seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,fde68a,a3e635&radius=50";
     }
 
-    public function candidateProfile()
+    public function candidate()
     {
-        return $this->hasOne(CandidateProfile::class);
+        return $this->hasOne(Candidate::class);
     }
 
-    public function employerProfile()
+    public function employer()
     {
-        return $this->hasOne(EmployerProfile::class);
+        return $this->hasOne(Employer::class);
     }
 
     public function isCandidate(): bool
