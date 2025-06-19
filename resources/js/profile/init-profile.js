@@ -95,7 +95,7 @@ $(function () {
     function validateCandidateForm() {
         let isValid = true;
         const requiredFields = [
-            'candidate-dob', 'candidate-gender', 'candidate-address', 'candidate-phone',
+            'candidate-title', 'candidate-dob', 'candidate-gender', 'candidate-address', 'candidate-phone',
             'candidate-experience', 'candidate-skills'
         ];
 
@@ -171,6 +171,7 @@ $(function () {
 
         if (isCandidate) {
             data.candidate = {
+                title: $('#candidate-title').val(),
                 date_of_birth: $('#candidate-dob').val(),
                 gender: $('#candidate-gender').val(),
                 address: $('#candidate-address').val(),
