@@ -167,7 +167,9 @@
                                 <i class="fas fa-user-plus text-primary-500 group-hover:text-primary-400"></i>
                             </span>
                             <span id="button-text">Đăng ký</span>
-                            <i id="loading-icon" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                            <div id ="loading-icon"
+                                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin ml-2 mt-1 hidden">
+                            </div>
                         </button>
                     </div>
                 </form>
@@ -187,19 +189,19 @@
 
                     <div class="mt-6 grid grid-cols-3 gap-3">
                         <div>
-                             <a href="{{ url('/login/facebook') }}"
+                            <a href="{{ url('/login/facebook') }}"
                                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         </div>
                         <div>
-                             <a href="{{ url('/login/google') }}"
+                            <a href="{{ url('/login/google') }}"
                                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <i class="fab fa-google"></i>
                             </a>
                         </div>
                         <div>
-                             <a href="{{ url('/login/linkedin') }}"
+                            <a href="{{ url('/login/linkedin') }}"
                                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailStatusController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -37,9 +37,9 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
-    Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider']);
+    Route::get('login/{provider}', [SocialLoginController::class, 'redirectToProvider']);
 
-    Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
+    Route::get('login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -54,11 +54,8 @@ Route::middleware('auth')->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
-    Route::get('email-status', function () {
-        return response()->json([
-            'verified' => Auth::check() && Auth::user()->email_verified_at !== null,
-        ]);
-    });
+    Route::get('email-status', [EmailStatusController::class, 'check'])
+        ->name('email.status');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');
@@ -70,7 +67,4 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
-
-    Route::get('register/complete', [RegisteredUserController::class, 'complete'])
-        ->name('register.complete');
 });

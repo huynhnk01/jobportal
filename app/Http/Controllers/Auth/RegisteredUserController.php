@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,16 +47,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        //event(new Registered($user));
         $user->sendEmailVerificationNotification();
 
         Auth::login($user);
 
         return redirect()->route('verification.notice');
-    }
-
-    public function complete(): View
-    {
-        return view('auth.register-complete');
     }
 }
