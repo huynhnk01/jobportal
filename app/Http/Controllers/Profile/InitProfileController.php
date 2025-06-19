@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CandidateRequest;
 use App\Models\Candidate;
+use App\Models\User;
 
 class InitProfileController extends Controller
 {
@@ -26,7 +27,12 @@ class InitProfileController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = Auth::user()->id;
+        $data['education_level'] = 'high-school'; // Default value if not provided
         $candidate = Candidate::create($data);
+        
+        $user = User::find(Auth::id());
+        $user->init_profile = true;
+        $user->save();
 
         return redirect()->route('profile.candidate.info');
     }

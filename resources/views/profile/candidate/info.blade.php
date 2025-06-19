@@ -75,7 +75,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Giới thiệu bản thân</label>
                     <p class="text-gray-900">
-                        {{ auth()->user()->candidate?->bio ?? 'Chưa cập nhật' }}
+                        {{ auth()->user()->candidate?->bio ?? '' }}
                     </p>
                 </div>
             </div>

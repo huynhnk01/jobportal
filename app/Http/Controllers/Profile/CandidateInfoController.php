@@ -2,25 +2,30 @@
 
 namespace App\Http\Controllers\Profile;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
 
 class CandidateInfoController extends Controller
 {
     /**
-     * Display the user's personal profile page.
+     * Display the candidate's profile information.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\View
      */
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        if (!$request->user()->init_profile) {
+            return redirect()->route('profile.init.index');
+        }
+
         return view('profile.candidate.info');
     }
 
@@ -68,23 +73,29 @@ class CandidateInfoController extends Controller
         return response()->json(['message' => 'Cập nhật thành công']);
     }
 
+    /**
+     * Call AI service to generate or edit introduction content.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function callAIFromGroq(Request $request)
     {
         $type = $request->input('type');
         $name = Auth::user()->name;
-        $job = $request->input('job') ?? 'Kỹ sư phần mềm';
-        $experience = $request->input('yoe');
+        $title = $request->input('title');
+        $experience = $request->input('experience');
         $skills = $request->input('skills');
-        $content = '';
+        $content = $request->input('content');
 
         if ($type === 'new') {
-            $userPrompt = "Viết một đoạn giới thiệu bản thân bằng tiếng việt (~150 từ). Tôi tên là $name, là $job, có $experience kinh nghiệm. Điểm mạnh: $skills. Văn phong chuyên nghiệp, thân thiện.";
+            $userPrompt = "Viết một đoạn giới thiệu bản thân bằng tiếng việt (~150 từ). Tôi tên là $name, là $title, có $experience năm kinh nghiệm. Điểm mạnh: $skills. Văn phong chuyên nghiệp, thân thiện.";
         } else {
-            $userPrompt = "Giúp tôi chỉnh sửa đoạn văn sau để trôi chảy, đúng ngữ pháp và chuyên nghiệp hơn: \"$content\"";
+            $userPrompt = "Giúp tôi chỉnh sửa đoạn văn sau để trôi chảy, đúng ngữ pháp tiếng việt và chuyên nghiệp hơn: \"$content\"";
         }
 
-        $response = Http::withToken(env('GROQ_API_KEY'))->post('https://api.groq.com/openai/v1/chat/completions', [
-            'model' => 'llama3-70b-8192', // hoặc llama3-8b-8192
+        $response = Http::withToken(env('GROQ_API_KEY'))->post(env('GROQ_API_ENDPOINT'), [
+            'model' => env('GROQ_API_MODEL'),
             'messages' => [
                 ['role' => 'user', 'content' => $userPrompt],
             ],

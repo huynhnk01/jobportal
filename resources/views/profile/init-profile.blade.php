@@ -17,7 +17,7 @@
                     <div class="flex items-center">
                         <div
                             class="flex items-center justify-center w-8 h-8 bg-primary-600 text-white rounded-full text-sm font-medium">
-                            2
+                            <i class="fas fa-check"></i>
                         </div>
                         <div class="ml-2 text-sm font-medium text-primary-600">Xác thực địa chỉ email</div>
                     </div>
@@ -82,8 +82,29 @@
                 <!-- Candidate Form -->
                 <div id="candidate-form" class="form-section">
                     <h3 class="text-lg font-medium text-gray-900 mb-6">Thông tin ứng viên</h3>
+                    @if ($errors->any())
+                        <div class="mb-4">
+                            <div class="text-red-600 text-sm">
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     <form class="space-y-6" action="{{ route('profile.init.store') }}" method="POST">
                         @csrf
+                        <!-- Address -->
+                        <div class="space-y-2">
+                            <label for="candidate-title" class="block text-sm font-medium text-gray-700">
+                                Vị trí hiện tại <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="candidate-title" name="title" required
+                                class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                placeholder="Nhập vị trí hiện tại của bạn"
+                                value="{{ old('title') }}">
+                            <div id="candidate-title-error" class="hidden text-sm text-red-600"></div>
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Date of Birth -->
                             <div class="space-y-2">
@@ -91,7 +112,8 @@
                                     Ngày sinh <span class="text-red-500">*</span>
                                 </label>
                                 <input type="date" id="candidate-dob" name="date_of_birth" required
-                                    class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                    class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                    value="{{ old('date_of_birth') }}">
                                 <div id="candidate-dob-error" class="hidden text-sm text-red-600"></div>
                             </div>
 
@@ -103,9 +125,9 @@
                                 <select id="candidate-gender" name="gender" required
                                     class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                                     <option value="">Chọn giới tính</option>
-                                    <option value="male">Nam</option>
-                                    <option value="female">Nữ</option>
-                                    <option value="other">Khác</option>
+                                    <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Nam</option>
+                                    <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Nữ</option>
+                                    <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Khác</option>
                                 </select>
                                 <div id="candidate-gender-error" class="hidden text-sm text-red-600"></div>
                             </div>
@@ -118,7 +140,8 @@
                             </label>
                             <input type="text" id="candidate-address" name="address" required
                                 class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                placeholder="Nhập địa chỉ của bạn">
+                                placeholder="Nhập địa chỉ của bạn"
+                                value="{{ old('address') }}">
                             <div id="candidate-address-error" class="hidden text-sm text-red-600"></div>
                         </div>
 
@@ -129,7 +152,8 @@
                             </label>
                             <input type="tel" id="candidate-phone" name="phone" required
                                 class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                placeholder="Nhập số điện thoại của bạn">
+                                placeholder="Nhập số điện thoại của bạn"
+                                value="{{ old('phone') }}">
                             <div id="candidate-phone-error" class="hidden text-sm text-red-600"></div>
                         </div>
 
@@ -142,11 +166,11 @@
                                 <select id="candidate-experience" name="experience_level" required
                                     class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                                     <option value="">Chọn mức độ kinh nghiệm</option>
-                                    <option value="fresher">Mới tốt nghiệp</option>
-                                    <option value="junior">1-2 năm</option>
-                                    <option value="middle">3-5 năm</option>
-                                    <option value="senior">5+ năm</option>
-                                    <option value="expert">10+ năm</option>
+                                    <option value="fresher" {{ old('experience_level') == 'fresher' ? 'selected' : '' }}>Mới tốt nghiệp</option>
+                                    <option value="junior" {{ old('experience_level') == 'junior' ? 'selected' : '' }}>1-2 năm</option>
+                                    <option value="middle" {{ old('experience_level') == 'middle' ? 'selected' : '' }}>3-5 năm</option>
+                                    <option value="senior" {{ old('experience_level') == 'senior' ? 'selected' : '' }}>5+ năm</option>
+                                    <option value="expert" {{ old('experience_level') == 'expert' ? 'selected' : '' }}>10+ năm</option>
                                 </select>
                                 <div id="candidate-experience-error" class="hidden text-sm text-red-600"></div>
                             </div>
@@ -159,13 +183,13 @@
                                 <select id="candidate-salary" name="desired_salary"
                                     class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                                     <option value="">Chọn mức lương</option>
-                                    <option value="under-10m">Dưới 10 triệu</option>
-                                    <option value="10m-15m">10-15 triệu</option>
-                                    <option value="15m-20m">15-20 triệu</option>
-                                    <option value="20m-30m">20-30 triệu</option>
-                                    <option value="30m-50m">30-50 triệu</option>
-                                    <option value="over-50m">Trên 50 triệu</option>
-                                    <option value="negotiable">Thỏa thuận</option>
+                                    <option value="under-10m" {{ old('desired_salary') == 'under-10m' ? 'selected' : '' }}>Dưới 10 triệu</option>
+                                    <option value="10m-15m" {{ old('desired_salary') == '10m-15m' ? 'selected' : '' }}>10-15 triệu</option>
+                                    <option value="15m-20m" {{ old('desired_salary') == '15m-20m' ? 'selected' : '' }}>15-20 triệu</option>
+                                    <option value="20m-30m" {{ old('desired_salary') == '20m-30m' ? 'selected' : '' }}>20-30 triệu</option>
+                                    <option value="30m-50m" {{ old('desired_salary') == '30m-50m' ? 'selected' : '' }}>30-50 triệu</option>
+                                    <option value="over-50m" {{ old('desired_salary') == 'over-50m' ? 'selected' : '' }}>Trên 50 triệu</option>
+                                    <option value="negotiable" {{ old('desired_salary') == 'negotiable' ? 'selected' : '' }}>Thỏa thuận</option>
                                 </select>
                                 <div id="candidate-salary-error" class="hidden text-sm text-red-600"></div>
                             </div>
@@ -178,7 +202,7 @@
                             </label>
                             <textarea id="candidate-skills" name="skills" rows="3" required
                                 class="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                placeholder="Ví dụ: JavaScript, React, Node.js, MySQL..."></textarea>
+                                placeholder="Ví dụ: JavaScript, React, Node.js, MySQL...">{{ old('skills') }}</textarea>
                             <p class="text-xs text-gray-500">Liệt kê các kỹ năng của bạn, cách nhau bằng dấu phẩy</p>
                             <div id="candidate-skills-error" class="hidden text-sm text-red-600"></div>
                         </div>

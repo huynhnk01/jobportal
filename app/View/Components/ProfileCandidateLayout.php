@@ -23,6 +23,6 @@ class ProfileCandidateLayout extends Component
      */
     public function render(): View
     {
-        return view('components.profile-candidate');
+        return view('layouts.profile-candidate');
     }
 }
