@@ -23,7 +23,7 @@
                     <x-form-errors id="server-errors" type="server" :errors="$errors" />
                 @endif
 
-                <form class="mt-8 space-y-6" action="{{ route('register') }}" method="POST">
+                <form action="{{ route('register') }}" method="POST" class="mt-8 space-y-6">
                     @csrf
                     <!-- Full Name Field -->
                     <div class="space-y-2">
@@ -36,7 +36,7 @@
                                 placeholder="Nhập họ và tên của bạn" value="{{ old('name') }}">
                         </div>
                         <div id="name-error" class="hidden mt-1 text-sm text-red-600">
-                            <!-- Error message -->
+                            <!-- JS add Error message -->
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@
                                 placeholder="Nhập địa chỉ email của bạn" value="{{ old('email') }}">
                         </div>
                         <div id="email-error" class="mt-1 text-sm text-red-600">
-                            <!-- Error message -->
+                            <!-- JS add Error message -->
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                             </button>
                         </div>
                         <div id="password-error" class="hidden mt-1 text-sm text-red-600">
-                            <!-- Error message -->
+                            <!-- JS add Error message -->
                         </div>
                     </div>
 
@@ -127,7 +127,7 @@
                             </button>
                         </div>
                         <div id="password-confirmation-error" class="hidden mt-1 text-sm text-red-600">
-                            {{ $errors->first('password_confirmation') }}
+                            <!-- JS add Error message -->
                         </div>
                         <div id="confirmSuccess" class="hidden mt-2 text-sm text-green-600">
                             <i class="fas fa-check-circle mr-1"></i>
@@ -167,9 +167,9 @@
                                 <i class="fas fa-user-plus text-primary-500 group-hover:text-primary-400"></i>
                             </span>
                             <span id="button-text">Đăng ký</span>
-                            <div id ="loading-icon"
-                                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin ml-2 mt-1 hidden">
-                            </div>
+                            <span class="absolute right-0 inset-y-0 flex items-center pr-3">
+                                <i id="loading-icon" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                            </span>
                         </button>
                     </div>
                 </form>

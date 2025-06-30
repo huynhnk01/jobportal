@@ -2,18 +2,17 @@
 
 namespace App\View\Components;
 
-use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ProfileCandidateLayout extends Component
-{
-    public $user;
+use App\Models\User;
 
+class CandidateProfileLayout extends Component
+{
     /**
      * Create a new component instance.
      */
-    public function __construct(User $user)
+    public function __construct(public User $user)
     {
         $this->user = $user;
     }
@@ -23,6 +22,6 @@ class ProfileCandidateLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.profile-candidate');
+        return view('layouts.candidate-profile');
     }
 }

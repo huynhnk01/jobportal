@@ -36,7 +36,7 @@
                         Đăng Tin Tuyển Dụng
                     </a>
 
-                    <!-- Guest Actions -->
+                    <!-- Guest Actions (Desktop) -->
                     @guest
                         <div class="guest-actions flex items-center gap-3">
                             <a href="/login"
@@ -55,22 +55,21 @@
                         <div class="auth-profile relative group">
                             <button
                                 class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition-colors">
-                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-8 h-8 rounded-full">
+                                <x-avatar avatarUrl="{{ auth()->user()->avatar_url }}" class="w-8 h-8" />
                                 <div class="text-left">
                                     <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
                                 </div>
                                 <i class="fas fa-chevron-down text-xs text-gray-400"></i>
                             </button>
 
-                            <!-- Desktop Dropdown Menu -->
+                            <!-- My Account Dropdown Menu (Desktop) -->
                             <div
                                 class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 <div class="py-2">
                                     <!-- User Info -->
                                     <div class="px-4 py-3 border-b border-gray-100">
                                         <div class="flex items-center gap-3">
-                                            <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
-                                                class="w-10 h-10 rounded-full">
+                                            <x-avatar avatarUrl="{{ auth()->user()->avatar_url }}" class="w-10 h-10" />
                                             <div>
                                                 <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
                                                 <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
@@ -137,25 +136,26 @@
 
                 <!-- Mobile/Tablet Actions -->
                 <div class="flex lg:hidden items-center gap-2">
-                    <!-- Notifications (Mobile) -->
-                    <div class="auth-mobile-actions hidden">
-                        <button class="p-2 text-gray-400 hover:text-gray-600 relative">
-                            <i class="fas fa-bell text-lg"></i>
-                            <span
-                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Profile (when logged in) -->
+                    <!-- (when logged in) -->
                     @auth
-                        <div class="auth-mobile-profile hidden">
+                        <!-- Notifications (Mobile) -->
+                        <div class="auth-mobile-actions">
+                            <button class="p-2 text-gray-400 hover:text-gray-600 relative">
+                                <i class="fas fa-bell text-lg"></i>
+                                <span
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                            </button>
+                        </div>
+
+                        <!-- Profile (Mobile) -->
+                        <div class="auth-mobile-profile">
                             <button class="mobile-profile-btn p-1">
-                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="w-8 h-8 rounded-full">
+                                <x-avatar avatarUrl="{{ auth()->user()->avatar_url }}" class="w-8 h-8" />
                             </button>
                         </div>
                     @endauth
 
-                    <!-- Mobile Menu Button -->
+                    <!-- Menu Button (Mobile) -->
                     <button class="mobile-menu-btn p-2 text-gray-600 hover:text-gray-900 transition-colors">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
@@ -182,13 +182,12 @@
                 <div class="p-4">
                     <!-- User Profile Section (when logged in) -->
                     @auth
-                        <div class="auth-mobile-profile-section hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="auth-mobile-profile-section mb-6 p-4 bg-gray-50 rounded-lg">
                             <div class="flex items-center gap-3 mb-4">
-                                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
-                                    class="w-12 h-12 rounded-full">
+                                <x-avatar avatarUrl="{{ auth()->user()->avatar_url }}" class="w-12 h-12" />
                                 <div>
-                                    <p class="font-medium text-gray-900">Nguyễn Văn A</p>
-                                    <p class="text-sm text-gray-500">nguyenvana@example.com</p>
+                                    <p class="font-medium text-gray-900">{{ auth()->user()->name }}</p>
+                                    <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
                                     <p class="text-sm text-primary-600">Ứng viên</p>
                                 </div>
                             </div>
@@ -235,8 +234,8 @@
 
                     <!-- Auth Menu Items (when logged in) -->
                     @auth
-                        <div class="auth-mobile-menu hidden space-y-1 mb-6 border-t pt-4">
-                            <a href="my-account.html"
+                        <div class="auth-mobile-menu space-y-1 mb-6 border-t pt-4">
+                            <a href="{{ route('profile.candidate.info') }}"
                                 class="flex items-center gap-3 px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
                                 <i class="fas fa-user text-gray-400 w-5"></i>
                                 <span>Hồ sơ cá nhân</span>
@@ -282,11 +281,11 @@
                         <!-- Guest Actions (when not logged in) -->
                         @guest
                             <div class="guest-mobile-actions space-y-2">
-                                <a href="/login"
+                                <a href="{{ route('login') }}"
                                     class="block w-full px-4 py-3 border border-gray-300 text-gray-700 text-center rounded-md hover:bg-gray-50 transition-colors">
                                     Đăng Nhập
                                 </a>
-                                <a href="/register"
+                                <a href="{{ route('register') }}"
                                     class="block w-full px-4 py-3 bg-primary-600 text-white text-center rounded-md hover:bg-primary-700 transition-colors">
                                     Đăng Ký
                                 </a>
@@ -295,13 +294,13 @@
 
                         <!-- Auth Actions (when logged in) -->
                         @auth
-                            <div class="auth-mobile-actions hidden space-y-2 border-t pt-4">
+                            <div class="auth-mobile-actions space-y-2 border-t pt-4">
                                 <a href="#"
                                     class="flex items-center justify-center gap-2 w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                                     <i class="fas fa-question-circle"></i>
                                     Trợ giúp
                                 </a>
-                                <a href="login.html"
+                                <a href="{{ route('logout') }}"
                                     class="flex items-center justify-center gap-2 w-full px-4 py-3 text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
                                     <i class="fas fa-sign-out-alt"></i>
                                     Đăng xuất

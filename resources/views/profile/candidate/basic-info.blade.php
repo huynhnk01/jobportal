@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-profile-candidate-layout>
+    <x-candidate-profile-layout>
         <!-- Basic Info Section (Default) -->
         <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <div class="flex items-center justify-between mb-6">
@@ -160,5 +160,5 @@
                 </div>
             </div>
         </div>
-    </x-profile-candidate-layout>
+    </x-candidate-profile-layout>
 </x-app-layout>

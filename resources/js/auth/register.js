@@ -1,52 +1,49 @@
 $(function () {
     const $form = $('form');
+    const $serverErrors = $('#server-errors');
     const $nameInput = $('#full-name');
     const $emailInput = $('#email-address');
     const $passwordInput = $('#password');
     const $passwordStrength = $('#passwordStrength');
     const $strengthBar = $('#strengthBar');
     const $strengthText = $('#strengthText');
+    const $togglePassword = $('#toggle-password');
     const $passwordConfirmInput = $('#password-confirm');
+    const $togglePasswordConfirm = $('#toggle-password-confirm');
     const $registerButton = $('#register-button');
     const $buttonText = $('#button-text');
     const $loadingIcon = $('#loading-icon');
-    const $serverErrors = $('#server-errors');
-    const $submitBtn = $('#register-button');
 
-    $('#toggle-password').on('click', function () {
-        togglePasswordVisibility('#password', $(this).find('i'));
-    });
+    // Xử lý submit form
+    $form.on('submit', function (e) {
+        e.preventDefault();
 
-    $('#toggle-password-confirm').on('click', function () {
-        togglePasswordVisibility('#password-confirm', $(this).find('i'));
-    });
+        $registerButton.prop('disabled', true);
+        $buttonText.text('Đang xử lý...');
+        $loadingIcon.removeClass('hidden');
 
-    // Xử lý ẩn hiện mật khẩu
-    function togglePasswordVisibility(inputSelector, $icon) {
-        const $input = $(inputSelector);
-        if ($input.attr('type') === 'password') {
-            $input.attr('type', 'text');
-            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        if (validateForm()) {
+            this.submit();
         } else {
-            $input.attr('type', 'password');
-            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            $registerButton.prop('disabled', false);
+            $buttonText.text('Đăng ký');
+            $loadingIcon.addClass('hidden');
         }
+    });
+
+    // Kiểm tra tính hợp lệ của tất cả các trường khi người dùng submit form
+    function validateForm() {
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isPasswordConfirmValid = validatePasswordConfirmation();
+        const isTermsChecked = validateTerms();
+
+        const isValid = isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid && isTermsChecked;
+        $registerButton.prop('disabled', !isValid);
+
+        return isValid;
     }
-
-    $nameInput.on('blur', validateName);
-    $emailInput.on('blur', validateEmail);
-    $passwordInput.on('blur', validatePassword);
-    $passwordConfirmInput.on('blur', validatePasswordConfirmation);
-
-    $passwordInput.on('input', function () {
-        const password = $(this).val();
-        if (password.length > 0) {
-            $passwordStrength.removeClass('hidden');
-            checkPasswordStrength(password);
-        } else {
-            $passwordStrength.addClass('hidden');
-        }
-    });
 
     function validateName() {
         const name = $nameInput.val().trim();
@@ -106,48 +103,6 @@ $(function () {
         }
     }
 
-    function checkPasswordStrength(password) {
-        let score = 0;
-        const requirements = {
-            length: password.length >= 8,
-            uppercase: /[A-Z]/.test(password),
-            lowercase: /[a-z]/.test(password),
-            number: /\d/.test(password),
-            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
-        };
-
-        $.each(requirements, function (key, met) {
-            const $req = $(`#req-${key}`);
-            const $icon = $req.find('i');
-            const $text = $req.find('span');
-
-            if (met) {
-                score++;
-                $icon.removeClass('fa-circle text-gray-500').addClass('fa-check-circle text-green-500');
-                $text.removeClass('text-gray-500').addClass('text-green-600');
-            } else {
-                $icon.removeClass('fa-check-circle text-green-500').addClass('fa-circle text-gray-500');
-                $text.removeClass('text-green-600').addClass('text-gray-500');
-            }
-        });
-
-        const percentage = (score / 5) * 100;
-        $strengthBar.css('width', percentage + '%');
-
-        if (score < 2) {
-            $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-red-500');
-            $strengthText.text('Yếu').attr('class', 'text-sm font-medium text-red-600');
-        } else if (score < 4) {
-            $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-yellow-500');
-            $strengthText.text('Trung bình').attr('class', 'text-sm font-medium text-yellow-600');
-        } else {
-            $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-green-500');
-            $strengthText.text('Mạnh').attr('class', 'text-sm font-medium text-green-600');
-        }
-
-        return score >= 3;
-    }
-
     function validatePasswordConfirmation() {
         const password = $passwordInput.val();
         const confirm = $passwordConfirmInput.val();
@@ -161,36 +116,6 @@ $(function () {
         } else {
             hideError($error);
             return true;
-        }
-    }
-
-    $passwordConfirmInput.on('input', function () {
-        checkPasswordMatch();
-    });
-
-
-    function checkPasswordMatch() {
-        const password = $passwordInput.val();
-        const passwordConfirm = $passwordConfirmInput.val();
-        const $confirmSuccess = $('#confirmSuccess');
-        const $confirmError = $('#password-confirmation-error');
-
-        if (passwordConfirm.length === 0) {
-            $confirmError.add($confirmSuccess).addClass('hidden');
-            $passwordConfirmInput.removeClass('border-red-500 border-green-500');
-            return false;
-        }
-
-        if (password === passwordConfirm) {
-            $confirmError.addClass('hidden');
-            $confirmSuccess.removeClass('hidden');
-            $passwordConfirmInput.removeClass('border-red-500').addClass('border-green-500');
-            return true;
-        } else {
-            $confirmSuccess.addClass('hidden');
-            $confirmError.removeClass('hidden').find('span').text('Mật khẩu xác nhận không khớp');
-            $passwordConfirmInput.removeClass('border-green-500').addClass('border-red-500');
-            return false;
         }
     }
 
@@ -216,42 +141,120 @@ $(function () {
         $element.parent().find('input').removeClass('border-red-500');
     }
 
-    // Xử lý xoá tất cả thông báo lỗi khi người dùng nhập liệu
+    // Thao tác ẩn hiện mật khẩu
+    $togglePassword.on('click', function () {
+        togglePasswordVisibility('#password', $(this).find('i'));
+    });
+
+    // Thao tác ẩn hiện mật khẩu xác nhận
+    $togglePasswordConfirm.on('click', function () {
+        togglePasswordVisibility('#password-confirm', $(this).find('i'));
+    });
+
+    // Xử lý ẩn hiện mật khẩu
+    function togglePasswordVisibility(inputSelector, $icon) {
+        const $input = $(inputSelector);
+        if ($input.attr('type') === 'password') {
+            $input.attr('type', 'text');
+            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            $input.attr('type', 'password');
+            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    }
+
+    // Xử lý sự kiện blur để kiểm tra tính hợp lệ của từng trường khi nhập liệu
+    $nameInput.on('blur', validateName);
+    $emailInput.on('blur', validateEmail);
+    $passwordInput.on('blur', validatePassword);
+    $passwordConfirmInput.on('blur', validatePasswordConfirmation);
+
+    // Kiểm tra độ mạnh mật khẩu khi người dùng nhập liệu
+    $passwordStrength.addClass('hidden');
+    $passwordInput.on('input', function () {
+        checkPasswordStrength();
+    });
+
+    function checkPasswordStrength() {
+        const password = $passwordInput.val();
+        if (password.length > 0) {
+            $passwordStrength.removeClass('hidden');
+            let score = 0;
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /\d/.test(password),
+                special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            };
+
+            $.each(requirements, function (key, met) {
+                const $req = $(`#req-${key}`);
+                const $icon = $req.find('i');
+                const $text = $req.find('span');
+
+                if (met) {
+                    score++;
+                    $icon.removeClass('fa-circle text-gray-500').addClass('fa-check-circle text-green-500');
+                    $text.removeClass('text-gray-500').addClass('text-green-600');
+                } else {
+                    $icon.removeClass('fa-check-circle text-green-500').addClass('fa-circle text-gray-500');
+                    $text.removeClass('text-green-600').addClass('text-gray-500');
+                }
+            });
+
+            const percentage = (score / 5) * 100;
+            $strengthBar.css('width', percentage + '%');
+
+            if (score < 2) {
+                $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-red-500');
+                $strengthText.text('Yếu').attr('class', 'text-sm font-medium text-red-600');
+            } else if (score < 4) {
+                $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-yellow-500');
+                $strengthText.text('Trung bình').attr('class', 'text-sm font-medium text-yellow-600');
+            } else {
+                $strengthBar.attr('class', 'h-2 rounded-full transition-all duration-300 bg-green-500');
+                $strengthText.text('Mạnh').attr('class', 'text-sm font-medium text-green-600');
+            }
+
+            return score >= 3;
+        } else {
+            $passwordStrength.addClass('hidden');
+        }
+    }
+
+    $passwordConfirmInput.on('input', function () {
+        checkPasswordMatch();
+    });
+
+    function checkPasswordMatch() {
+        const password = $passwordInput.val();
+        const passwordConfirm = $passwordConfirmInput.val();
+        const $confirmSuccess = $('#confirmSuccess');
+        const $confirmError = $('#password-confirmation-error');
+
+        if (password === passwordConfirm) {
+            $confirmError.addClass('hidden');
+            $confirmSuccess.removeClass('hidden');
+            $passwordConfirmInput.removeClass('border-red-500').addClass('border-green-500');
+            return true;
+        } else {
+            $confirmSuccess.addClass('hidden');
+            $confirmError.removeClass('hidden').find('span').text('Mật khẩu xác nhận không khớp');
+            $passwordConfirmInput.removeClass('border-green-500').addClass('border-red-500');
+            return false;
+        }
+    }
+
+    // Xử lý xoá tất cả thông báo lỗi khi người dùng nhập liệu trở lại
     $('input').on('input', function () {
         const $error = $('#' + this.name + '-error');
         if ($error.length && !$error.hasClass('hidden')) {
             hideError($error);
         }
-        // Trường hợp lỗi tổng từ backend
+        // Trường hợp lỗi tổng từ server backend
         if (!$serverErrors.hasClass('hidden')) {
             $serverErrors.addClass('hidden');
-        }
-    });
-
-    function validateForm() {
-        const isNameValid = validateName();
-        const isEmailValid = validateEmail();
-        const isPasswordValid = validatePassword();
-        const isPasswordConfirmValid = validatePasswordConfirmation();
-        const isPasswordMatch = checkPasswordMatch();
-        const isTermsChecked = validateTerms();
-
-        const isValid = isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid && isPasswordMatch && isTermsChecked;
-        $submitBtn.prop('disabled', !isValid);
-
-        return isValid;
-    }
-
-    // Xử lý submit form
-    $form.on('submit', function (e) {
-        e.preventDefault();
-
-        if (validateForm()) {
-            $registerButton.prop('disabled', true);
-            $buttonText.text('Đang xử lý...');
-            $loadingIcon.removeClass('hidden');
-
-            this.submit();
         }
     });
 });

@@ -80,6 +80,8 @@ $(function () {
             e.preventDefault();
             if (validateForm()) {
                 submitResetPassword();
+                this.submit();
+                console.log('Form submitted successfully');
             }
         });
 
@@ -230,45 +232,6 @@ $(function () {
         $loadingIcon.removeClass('hidden');
 
         hideAlerts();
-
-        const formData = $form.serialize();
-
-        $.ajax({
-            url: '/reset-password',
-            method: 'POST',
-            data: formData,
-            dataType: 'json',
-            beforeSend: function () {
-                $submitBtn.prop('disabled', true);
-                $submitText.text('Đang xử lý...');
-                $loadingIcon.removeClass('hidden');
-                hideAlerts();
-            },
-            success: function (response) {
-                $submitBtn.prop('disabled', false);
-                $submitText.text('Đặt lại mật khẩu');
-                $loadingIcon.addClass('hidden');
-
-                if (response.success) {
-                    showSuccess('Mật khẩu đã được đặt lại thành công! Bạn có thể đăng nhập với mật khẩu mới.');
-                    setTimeout(() => {
-                        window.location.href = '/login';
-                    }, 3000);
-                } else {
-                    showError(response.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
-                }
-            },
-            error: function (xhr) {
-                $submitBtn.prop('disabled', false);
-                $submitText.text('Đặt lại mật khẩu');
-                $loadingIcon.addClass('hidden');
-                let message = 'Có lỗi xảy ra. Vui lòng thử lại.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                }
-                showError(message);
-            }
-        });
     }
 
     function showSuccess(message) {
