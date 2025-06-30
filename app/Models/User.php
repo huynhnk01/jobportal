@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -35,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -47,7 +46,13 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function getAvatarUrlAttribute()
+    /**
+     * Get the user's avatar URL.
+     * Social URL | Internal upload | Random avatar
+     * 
+     * @return string
+     */
+    public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) {
             // Nếu avatar là URL (avatar từ social), trả về trực tiếp
@@ -64,26 +69,41 @@ class User extends Authenticatable implements MustVerifyEmail
         return "https://api.dicebear.com/8.x/shapes/svg?seed={$seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,fde68a,a3e635&radius=50";
     }
 
+    /**
+     * Get the candidate profile associated with the user.
+     */
     public function candidate()
     {
         return $this->hasOne(Candidate::class);
     }
 
+    /**
+     * Get the employer profile associated with the user.
+     */
     public function employer()
     {
         return $this->hasOne(Employer::class);
     }
 
+    /**
+     * Check if the user is a candidate.
+     */
     public function isCandidate(): bool
     {
         return $this->role === 'candidate';
     }
 
+    /**
+     * Check if the user is a employer.
+     */
     public function isEmployer(): bool
     {
         return $this->role === 'employer';
     }
 
+    /**
+     * Check if the user is a admin.
+     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

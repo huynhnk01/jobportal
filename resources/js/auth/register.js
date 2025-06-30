@@ -15,14 +15,19 @@ $(function () {
     const $loadingIcon = $('#loading-icon');
 
     // Xử lý submit form
+    let isSubmitting = false;
+
     $form.on('submit', function (e) {
         e.preventDefault();
+
+        if (isSubmitting) return;
 
         $registerButton.prop('disabled', true);
         $buttonText.text('Đang xử lý...');
         $loadingIcon.removeClass('hidden');
 
         if (validateForm()) {
+            isSubmitting = true;
             this.submit();
         } else {
             $registerButton.prop('disabled', false);

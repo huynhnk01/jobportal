@@ -1,6 +1,6 @@
 $(function () {
     const $resendBtn = $('#resendBtn');
-    const $statusTag = $('.inline-flex.bg-yellow-100');
+    const $statusTag = $('#statusTag');
     let intervalId = null;
 
     function checkEmailVerification() {
@@ -19,7 +19,7 @@ $(function () {
                     }
 
                     $resendBtn.prop('disabled', true);
-                    $resendBtn.find('.loading-icon').addClass('hidden');
+                    $resendBtn.find('#loading-icon').addClass('hidden');
 
                     // Dừng kiểm tra định kỳ
                     if (intervalId) {
