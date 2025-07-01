@@ -41,15 +41,15 @@
                         </div>
                         <div id="emailError" class="hidden mt-2 text-sm text-red-600">
                             <i class="fas fa-exclamation-circle mr-1"></i>
-                            <span></span>
+                            <span><!-- JS add Error mesage --></span>
                         </div>
                     </div>
 
-                    <button 
+                    <button id="submitBtn"
                         type="submit" 
                         class="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <span class="submit-text">Gửi link đặt lại mật khẩu</span>
+                        <span id="submitText" class="submit-text">Gửi link đặt lại mật khẩu</span>
                         <i id="loading-icon" class="fas fa-spinner fa-spin ml-2 hidden"></i>
                     </button>
                 </form>

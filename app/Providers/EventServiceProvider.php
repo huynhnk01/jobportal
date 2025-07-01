@@ -15,11 +15,6 @@ class EventServiceProvider extends ServiceProvider
         SocialiteWasCalled::class => [
             'SocialiteProviders\\LinkedIn\\LinkedInExtendSocialite@handle',
         ],
-
-        // Có thể thêm các sự kiện khác ở đây
-        // ExampleEvent::class => [
-        //     ExampleListener::class,
-        // ],
     ];
 
     public function boot(): void

@@ -5,7 +5,7 @@ $(function () {
 
     function checkEmailVerification() {
         $.ajax({
-            url: '/email-status',
+            url: '/verify-email-status',
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -32,5 +32,5 @@ $(function () {
     }
 
     // Kiểm tra mỗi 5 giây
-    intervalId = setInterval(checkEmailVerification, 5000);
+    intervalId = setInterval(checkEmailVerification, 10000);
 });

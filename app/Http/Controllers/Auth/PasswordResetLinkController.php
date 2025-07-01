@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Password;
+
+use App\Http\Controllers\Controller;
 
 class PasswordResetLinkController extends Controller
 {
     /**
      * Display the password reset link request view.
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -18,16 +21,12 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
-     *
-     * Validates the email and attempts to send a password reset link.
-     * Returns a JSON response indicating success or failure.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * Send a password reset link to the given user.
+     * 
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'email' => ['required', 'email'],
