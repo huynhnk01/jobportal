@@ -18,7 +18,7 @@
                 </div>
 
                 <!-- Alert Messages -->
-                <div id="alertContainer" class="mb-6 hidden">
+                <div id="alertContainer" class="mb-6">
                     <div id="successAlert" class="hidden p-4 bg-green-50 border border-green-200 rounded-md">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -30,16 +30,23 @@
                         </div>
                     </div>
 
-                    <div id="errorAlert" class="hidden p-4 bg-red-50 border border-red-200 rounded-md">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-exclamation-circle text-red-400"></i>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-red-800" id="errorMessage"></p>
+                    @if ($errors->any())
+                        <div id="errorAlert" class="p-4 bg-red-50 border border-red-200 rounded-md">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-circle text-red-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-red-800" id="errorMessage">Đã có lỗi xảy ra</p>
+                                    <ul class="text-sm text-red-600">
+                                    @foreach ($errors->all() as $error)
+                                        <li><i class="fas fa-exclamation-circle mr-1"></i> {{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <!-- Reset Password Form -->
@@ -49,20 +56,7 @@
                     <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
                     <!-- Email Field -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Email <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-envelope text-gray-400"></i>
-                            </div>
-                            <input type="email" id="email" name="email" required autocomplete="email"
-                                value="{{ $request->email }}"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
-                    </div>
+                    <input type="hidden" id="email" name="email" value="{{ $request->email }}">
 
                     <!-- New Password -->
                     <div>
@@ -73,8 +67,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-key text-gray-400"></i>
                             </div>
-                            <input type="password" id="newPassword" name="password" required
-                                autocomplete="new-password"
+                            <input type="password" id="newPassword" name="password" required autocomplete="new-password"
                                 class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 placeholder="Nhập mật khẩu mới">
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />

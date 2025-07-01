@@ -29,8 +29,6 @@ $(function () {
     const $alertContainer = $('#alertContainer');
     const $successAlert = $('#successAlert');
     const $errorAlert = $('#errorAlert');
-    const $successMessage = $('#successMessage');
-    const $errorMessage = $('#errorMessage');
 
     // Setup event listeners
     setupEventListeners();
@@ -94,7 +92,8 @@ $(function () {
             }
         });
 
-        $emailInput.focus();
+        // Autofocus email input on page load for better UX
+        $emailInput.trigger('focus');
     }
 
     function validateEmail() {
@@ -232,22 +231,6 @@ $(function () {
         $loadingIcon.removeClass('hidden');
 
         hideAlerts();
-    }
-
-    function showSuccess(message) {
-        $alertContainer.removeClass('hidden');
-        $successAlert.removeClass('hidden');
-        $errorAlert.addClass('hidden');
-        $successMessage.text(message);
-        $('html, body').animate({ scrollTop: 0 }, 'smooth');
-    }
-
-    function showError(message) {
-        $alertContainer.removeClass('hidden');
-        $errorAlert.removeClass('hidden');
-        $successAlert.addClass('hidden');
-        $errorMessage.text(message);
-        $('html, body').animate({ scrollTop: 0 }, 'smooth');
     }
 
     function hideAlerts() {
