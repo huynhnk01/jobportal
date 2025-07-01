@@ -4,8 +4,8 @@ $(function () {
     const $step2 = $('#step2');
     const $emailInput = $('#email');
     const $emailError = $('#emailError');
-    const $submitBtn = $form.find('button[type="submit"]');
-    const $submitText = $submitBtn.find('.submit-text');
+    const $submitBtn = $('#submitBtn');
+    const $submitText = $('#submitText');
     const $loadingIcon = $('#loading-icon');
     const $sentEmail = $('#sentEmail');
     const $resendBtn = $('#resendBtn');
@@ -14,31 +14,82 @@ $(function () {
 
     let countdownInterval;
 
-    function validateEmail(email) {
-        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(email);
+    // Xử lý submit form
+    let isSubmitting = false;
+
+    $form.on('submit', async function (e) {
+        e.preventDefault();
+
+        if (isSubmitting) return;
+
+        if (!validateEmail()) return;
+
+        setLoading(true);
+
+        const email = $emailInput.val().trim();
+
+        $.ajax({
+            url: '/forgot-password',
+            method: 'POST',
+            data: { email },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    showStep2(email);
+                } else {
+                    showError(response.message || 'Có lỗi xảy ra. Vui lòng thử lại sau');
+                }
+            },
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response?.error === 'EMAIL_NOT_FOUND') {
+                    showError('Email này chưa được đăng ký trong hệ thống');
+                } else if (response?.errors?.email) {
+                    showError(response.errors.email[0]);
+                } else {
+                    showError('Có lỗi xảy ra. Vui lòng thử lại sau');
+                }
+            },
+            complete: function () {
+                setLoading(false);
+            }
+        });
+    });
+
+    function validateEmail() {
+        const email = $emailInput.val().trim();
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!email) {
+            showError('Vui lòng nhập email');
+            $emailInput.trigger('focus');
+            return false;
+        } else if (!emailRegex.test(email)) {
+            showError('Email không hợp lệ');
+            $emailInput.trigger('focus');
+            return false;
+        } else {
+            hideError();
+            return true;
+        }
     }
 
-    function showError(message) {
-        $emailError.find('span').text(message);
-        $emailError.removeClass('hidden');
-        $emailInput.addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
-    }
-
-    function hideError() {
-        $emailError.addClass('hidden');
-        $emailInput.removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
-    }
-
-    function setLoading(loading) {
-        $submitBtn.prop('disabled', loading);
-        if (loading) {
+    function setLoading(isLoading) {
+        $submitBtn.prop('disabled', isLoading);
+        if (isLoading) {
             $submitText.text('Đang gửi...');
             $loadingIcon.removeClass('hidden');
         } else {
             $submitText.text('Gửi link đặt lại mật khẩu');
             $loadingIcon.addClass('hidden');
         }
+    }
+
+    function showStep2(email) {
+        $sentEmail.text(email);
+        $step1.addClass('hidden');
+        $step2.removeClass('hidden');
+        startCountdown();
     }
 
     function startCountdown() {
@@ -59,66 +110,16 @@ $(function () {
         }, 1000);
     }
 
-    function showStep2(email) {
-        $sentEmail.text(email);
-        $step1.addClass('hidden');
-        $step2.removeClass('hidden');
-        startCountdown();
+    function showError(message) {
+        $emailError.find('span').text(message);
+        $emailError.removeClass('hidden');
+        $emailInput.addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
     }
 
-    function showStep1() {
-        $step2.addClass('hidden');
-        $step1.removeClass('hidden');
-        if (countdownInterval) clearInterval(countdownInterval);
+    function hideError() {
+        $emailError.addClass('hidden');
+        $emailInput.removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
     }
-
-    $form.on('submit', async function (e) {
-        e.preventDefault();
-        hideError();
-
-        const email = $emailInput.val().trim();
-
-        if (!email) {
-            showError('Vui lòng nhập email');
-            $emailInput.focus();
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            showError('Email không hợp lệ');
-            $emailInput.focus();
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            const response = await $.ajax({
-                url: '/forgot-password',
-                method: 'POST',
-                data: { email },
-                dataType: 'json'
-            });
-
-            if (response.success) {
-                showStep2(email);
-            } else {
-                showError(response.message || 'Có lỗi xảy ra. Vui lòng thử lại');
-            }
-        } catch (error) {
-            const response = error.responseJSON;
-
-            if (response?.error === 'EMAIL_NOT_FOUND') {
-                showError('Email này chưa được đăng ký trong hệ thống');
-            } else if (response?.errors?.email) {
-                showError(response.errors.email[0]);
-            } else {
-                showError('Có lỗi xảy ra. Vui lòng thử lại sau');
-            }
-        } finally {
-            setLoading(false);
-        }
-    });
 
     $resendBtn.on('click', async function () {
         const email = $sentEmail.text();
@@ -127,34 +128,52 @@ $(function () {
         const originalText = $resendBtn.html();
         $resendBtn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi...');
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
+        $.ajax({
+            url: '/forgot-password',
+            method: 'POST',
+            data: { email },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    const $successMsg = $('<div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-md shadow-lg z-50 transition-all duration-300">' +
+                        '<i class="fas fa-check mr-2"></i>Email đã được gửi lại!</div>');
+                    $('body').append($successMsg);
 
-            const $successMsg = $('<div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-md shadow-lg z-50 transition-all duration-300">' +
-                '<i class="fas fa-check mr-2"></i>Email đã được gửi lại!</div>');
-            $('body').append($successMsg);
+                    setTimeout(() => {
+                        $successMsg.css('opacity', '0');
+                        setTimeout(() => $successMsg.remove(), 300);
+                    }, 3000);
 
-            setTimeout(() => {
-                $successMsg.css('opacity', '0');
-                setTimeout(() => $successMsg.remove(), 300);
-            }, 3000);
+                    startCountdown();
+                } else {
+                    const $errorMsg = $('<div class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-md shadow-lg z-50 transition-all duration-300">' +
+                        '<i class="fas fa-times mr-2"></i>Có lỗi xảy ra. Vui lòng thử lại!</div>');
+                    $('body').append($errorMsg);
 
-            startCountdown();
+                    setTimeout(() => {
+                        $errorMsg.css('opacity', '0');
+                        setTimeout(() => $errorMsg.remove(), 300);
+                    }, 3000);
 
-        } catch (error) {
-            const $errorMsg = $('<div class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-md shadow-lg z-50 transition-all duration-300">' +
-                '<i class="fas fa-times mr-2"></i>Có lỗi xảy ra. Vui lòng thử lại!</div>');
-            $('body').append($errorMsg);
+                    $resendBtn.prop('disabled', false);
+                }
+            },
+            error: function () {
+                const $errorMsg = $('<div class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-md shadow-lg z-50 transition-all duration-300">' +
+                    '<i class="fas fa-times mr-2"></i>Có lỗi xảy ra. Vui lòng thử lại!</div>');
+                $('body').append($errorMsg);
 
-            setTimeout(() => {
-                $errorMsg.css('opacity', '0');
-                setTimeout(() => $errorMsg.remove(), 300);
-            }, 3000);
+                setTimeout(() => {
+                    $errorMsg.css('opacity', '0');
+                    setTimeout(() => $errorMsg.remove(), 300);
+                }, 3000);
 
-            $resendBtn.prop('disabled', false);
-        } finally {
-            $resendBtn.html(originalText);
-        }
+                $resendBtn.prop('disabled', false);
+            },
+            complete: function () {
+                $resendBtn.html(originalText);
+            }
+        });
     });
 
     $emailInput.on('input', function () {
@@ -162,8 +181,6 @@ $(function () {
         const email = $(this).val().trim();
         if (email && validateEmail(email)) hideError();
     });
-
-    $emailInput.trigger('focus');
 
     $emailInput.on('focus', function () {
         if (!$(this).val()) $(this).attr('placeholder', 'VD: nguyenvana@example.com');

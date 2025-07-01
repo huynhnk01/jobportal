@@ -29,8 +29,6 @@ $(function () {
     const $alertContainer = $('#alertContainer');
     const $successAlert = $('#successAlert');
     const $errorAlert = $('#errorAlert');
-    const $successMessage = $('#successMessage');
-    const $errorMessage = $('#errorMessage');
 
     // Setup event listeners
     setupEventListeners();
@@ -80,6 +78,8 @@ $(function () {
             e.preventDefault();
             if (validateForm()) {
                 submitResetPassword();
+                this.submit();
+                console.log('Form submitted successfully');
             }
         });
 
@@ -92,7 +92,8 @@ $(function () {
             }
         });
 
-        $emailInput.focus();
+        // Autofocus email input on page load for better UX
+        $emailInput.trigger('focus');
     }
 
     function validateEmail() {
@@ -230,61 +231,6 @@ $(function () {
         $loadingIcon.removeClass('hidden');
 
         hideAlerts();
-
-        const formData = $form.serialize();
-
-        $.ajax({
-            url: '/reset-password',
-            method: 'POST',
-            data: formData,
-            dataType: 'json',
-            beforeSend: function () {
-                $submitBtn.prop('disabled', true);
-                $submitText.text('Đang xử lý...');
-                $loadingIcon.removeClass('hidden');
-                hideAlerts();
-            },
-            success: function (response) {
-                $submitBtn.prop('disabled', false);
-                $submitText.text('Đặt lại mật khẩu');
-                $loadingIcon.addClass('hidden');
-
-                if (response.success) {
-                    showSuccess('Mật khẩu đã được đặt lại thành công! Bạn có thể đăng nhập với mật khẩu mới.');
-                    setTimeout(() => {
-                        window.location.href = '/login';
-                    }, 3000);
-                } else {
-                    showError(response.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
-                }
-            },
-            error: function (xhr) {
-                $submitBtn.prop('disabled', false);
-                $submitText.text('Đặt lại mật khẩu');
-                $loadingIcon.addClass('hidden');
-                let message = 'Có lỗi xảy ra. Vui lòng thử lại.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                }
-                showError(message);
-            }
-        });
-    }
-
-    function showSuccess(message) {
-        $alertContainer.removeClass('hidden');
-        $successAlert.removeClass('hidden');
-        $errorAlert.addClass('hidden');
-        $successMessage.text(message);
-        $('html, body').animate({ scrollTop: 0 }, 'smooth');
-    }
-
-    function showError(message) {
-        $alertContainer.removeClass('hidden');
-        $errorAlert.removeClass('hidden');
-        $successAlert.addClass('hidden');
-        $errorMessage.text(message);
-        $('html, body').animate({ scrollTop: 0 }, 'smooth');
     }
 
     function hideAlerts() {

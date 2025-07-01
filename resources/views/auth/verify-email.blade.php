@@ -29,7 +29,7 @@
                             <p class="text-sm text-blue-700" id="userEmail">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="flex-shrink-0">
-                            <span
+                            <span id="statusTag"
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                 <i class="fas fa-clock mr-1"></i>
                                 Chờ xác thực
@@ -92,13 +92,13 @@
                 <!-- Action Buttons -->
                 <div class="space-y-4">
                     <!-- Resend Email Button -->
-                    <form method="POST" action="{{ route('verification.send') }}">
+                    <form action="{{ route('verification.send') }}" method="POST">
                         @csrf
                         {{-- <input type="hidden" name="email" value="{{ $user->email }}"> --}}
                         <button id="resendBtn" type="submit"
                             class="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             <span class="resend-text">Gửi lại email xác thực</span>
-                            <i class="fas fa-spinner fa-spin ml-2 hidden loading-icon"></i>
+                            <i id="loading-icon" class="fas fa-spinner fa-spin ml-2 hidden"></i>
                         </button>
                     </form>
                 </div>
